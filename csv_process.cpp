@@ -1,63 +1,54 @@
 #include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string>
+#include <vector>
+#include <algorithm>
+#include "Buffer.h"
 
-#include <map>
-#include <limits>
+void processAndDisplayData(std::vector<ZipCodeRecord>& records, bool sortByPlaceName) {
+    std::cout << "State | Easternmost Zip | Westernmost Zip | Northernmost Zip | Southernmost Zip\n";
+    std::cout << "---------------------------------------------------------------\n";
 
-
-// Storing the zip code data
-struct ZipData {
-    int zipCode;
-    std::string placeName;
-    std::string state;
-    std::string county;
-    double lat;
-    double lon;
-};
-
-//function to compare and get the (min/max)for each state
-void processData(cons std::string& inputFileName,
-    std::ifstream inputFile(inputFileName);
-    std::ofstream outputFile(outputFileName);
-
-    // checking input file
-    if (!inputFile.is_open()) {
-        std::cerr << "Input file couldn't open!" << std::endl;
-        return;
+    // Sort by Zip Code (Default) or Place Name based on user input
+    if (sortByPlaceName) {
+        std::sort(records.begin(), records.end(), [](const ZipCodeRecord& a, const ZipCodeRecord& b) {
+            return a.place_name < b.place_name;
+        });
+    } else {
+        std::sort(records.begin(), records.end(), [](const ZipCodeRecord& a, const ZipCodeRecord& b) {
+            return a.zip_code < b.zip_code;
+        });
     }
 
-    // checking output file
-    if (!outputFile.is_open()) {
-        std::cerr << "Output file couldn't open"
-    }
-
-// Skip the header
-std::string line;
-std::getline(inputFile, line);
-
-
-
-
-int main() {
-    std::ifstream file("us_postal_codes.csv");
-    std::string line;
-
-    // Read file line by line
-
-    while (std::getline(file, line)) {
-        std::stringstream ss(line);
-        std::string column;
-
-        // Print each column in the row 
-
-        while (std::getline(ss, column, ',')) {
-            std::cout << column << " | ";
+    std::string currentState = "";
+    for (const auto& record : records) {
+        if (record.state != currentState) {
+            if (!currentState.empty()) std::cout << std::endl;
+            currentState = record.state;
+            std::cout << currentState << " | ";
         }
-        std::cout << std::endl;
+        std::cout << record.zip_code << " ";
+    }
+    std::cout << std::endl;
+}
+
+int main(int argc, char* argv[]) {
+    std::vector<ZipCodeRecord> records;
+    Buffer buffer;
+
+    if (!buffer.readCSV("us_postal_codes.csv", records)) {
+        return 1;
     }
 
-    file.close();
+    // Default: Sort by Zip Code
+    bool sortByPlaceName = false;
+
+    // Check if an argument was provided
+    if (argc > 1) {
+        std::string arg = argv[1];
+        if (arg == "place") {
+            sortByPlaceName = true;
+        }
+    }
+
+    processAndDisplayData(records, sortByPlaceName);
     return 0;
 }
