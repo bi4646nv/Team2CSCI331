@@ -52,14 +52,23 @@ script script_sorted_by_place.txt
 exit
 
 Step 7: Zip All ( Once all is checked and verified, we will push this to the main.cpp and then download to Zip and submit)
+
 zip project_submission.zip Buffer.cpp Buffer.h csv_process.cpp csv_verify.cpp main.cpp script_sorted_by_zip.txt script_sorted_by_place.txt us_postal_codes.csv
+
 Final Checklist
+
 ✅ CSV file (us_postal_codes.csv) created from XLSX
+
 ✅ Buffer.h and Buffer.cpp correctly process the CSV
+
 ✅ csv_process.cpp generates required output (sorted by ZIP)
+
 ✅ Modified csv_process.cpp generates identical output sorted by PLACE
+
 ✅ csv_verify.cpp ensures data consistency
+
 ✅ Script files (script_sorted_by_zip.txt and script_sorted_by_place.txt) generated
+
 
 What is left for now 
 Deoxygen file 
