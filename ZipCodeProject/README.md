@@ -1,27 +1,27 @@
-This project processes zip code data from a CSV file, organizing it by state and finding:
-- Easternmost zip code (smallest longitude)
-- Westernmost zip code (largest longitude)
-- Northernmost zip code (largest latitude)
-- Southernmost zip code (smallest latitude)
+This project processes Zip Code and Place Name data from a CSV file, organizing it by state and finding:
+- Easternmost Zip Code/Place Name (smallest longitude)
+- Westernmost Zip Code/Place Name (largest longitude)
+- Northernmost Zip Code/Place Name (largest latitude)
+- Southernmost Zip Code/Place Name (smallest latitude)
 
 The results are written to:
-- LocationSortedZips.txt (formatted text output)
-- LocationSortedZips.csv (CSV output)
+- SortedLocations.txt (formatted text output)
+- SortedLocations.csv (CSV output)
 
-By default, it uses `us_postal_codes.csv`, but you can specify a different input file.
+By default, the program uses `us_postal_codes.csv` as the input file.
 
 Compile with this command:
-`g++ -o zipcode_processor main.cpp Buffer.cpp`
+`g++ -o location_processor main.cpp Buffer.cpp`
 Run with this command:
-`./zipcode_processor`
+`./location_processor`
 
 Upon running, the user will be prompted like this:
 
-`Default file input: "us_postal_codes.csv"`
+`Do you want to sort by Zip Code (Z) or Place Name (P): `
 
-`Would you like to change this? (Y/N):`
+This allows for the user to specify whether the data should be sorted by Zip Code or Place Name.
 
-This allows for the user to specify their input file or to use the default one.
+If the user does not enter 'z' or 'p' (not case sensitive), the program will continue prompting the user.
 
 If there is missing data in the input CSV file, the user will recieve warnings like this:
 
@@ -31,18 +31,8 @@ If there is missing data in the input CSV file, the user will recieve warnings l
 
 ...
 
-If the user does not use a proper input file, they will recieve a message like this:
+Once the program is finished, a termination message will be produced:
 
-`Default file input: "us_postal_codes.csv"`
-
-`Would you like to change this? (Y/N): y`
-
-`Enter the input file name: nonexistentfile.csv`
-
-`Error: Could not open the file nonexistentfile.csv`
-
-`Error: Unable to read CSV file: nonexistentfile.csv`
-
-`sample_zip_codes.csv` is given in the project folder to use as a tester file.
+`Output written to SortedLocations.txt and SortedLocations.csv`
 
 Documentation done through Doxygen can be seen in `ZipCodeGroupProject.pdf`

@@ -1,9 +1,9 @@
 /**
  * @file Buffer.h
- * @brief Header file for the Buffer class, which handles reading, processing, and validating ZIP code data.
+ * @brief Header file for the Buffer class, which handles reading, processing, and validating zip code data.
  *
- * This class reads a CSV file containing ZIP codes, organizes the data by state,
- * and verifies data integrity before processing.
+ * This class reads a CSV file containing zip codes, organizes the data by state,
+ * allows sorting by Zip Code or Place Name, and verifies data integrity before processing.
  */
 
 #ifndef BUFFER_H
@@ -22,44 +22,42 @@ using namespace std;
 
 /**
  * @struct ZipCodeRecord
- * @brief Structure to hold ZIP code data.
+ * @brief Structure to hold zip code data for a given location.
  */
 struct ZipCodeRecord {
-    int zip_code;         ///< ZIP code
-    string place_name;    ///< City or place name
-    string state;         ///< Two-letter state abbreviation
-    string county;        ///< County name
-    double lat;           ///< Latitude
-    double lon;           ///< Longitude
+    int zip_code;         ///< zip code of the location.
+    string place_name;    ///< City or place name.
+    string state;         ///< Two-letter state abbreviation.
+    string county;        ///< County name (can be empty).
+    double lat;           ///< Latitude coordinate of the location.
+    double lon;           ///< Longitude coordinate of the location.
 };
 
 /**
  * @class Buffer
- * @brief A class to handle reading, processing, and validating ZIP code data.
+ * @brief A class to handle reading, processing, and validating zip code data.
  */
 class Buffer {
 public:
     /**
-     * @brief Reads a CSV file, validates data integrity, and stores ZIP code records.
+     * @brief Reads a CSV file, validates data integrity, and stores zip code records.
      * @param filename The name of the CSV file to read.
-     * @param records Vector to store the read ZIP code records.
+     * @param records A vector to store the read zip code records.
      * @return True if the file is read successfully, false otherwise.
+     *
+     * This function reads a CSV file containing zip code data, extracts fields, checks for missing values,
+     * and stores valid records into a vector. It also prints warnings for missing non-critical fields.
      */
     bool readCSV(const string& filename, vector<ZipCodeRecord>& records);
 
     /**
-     * @brief Organizes ZIP code records by state.
-     * @param records The vector of ZIP code records.
-     * @param state_map Map to store ZIP codes categorized by state.
+     * @brief Organizes zip code records by state.
+     * @param records The vector of zip code records.
+     * @param state_map A map to store zip codes categorized by state.
+     *
+     * This function groups zip code records by state into a map for easy retrieval.
      */
     void processRecords(const vector<ZipCodeRecord>& records, map<string, vector<ZipCodeRecord>>& state_map);
-
-private:
-    /**
-     * @brief Verifies the integrity of the CSV file and prints missing values.
-     * @param filename The name of the CSV file to check.
-     */
-    void verifyCSVIntegrity(const string& filename);
 };
 
 #endif // BUFFER_H

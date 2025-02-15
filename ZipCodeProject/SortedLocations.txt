@@ -1,4 +1,4 @@
-State |  Easternmost |  Westernmost | Northernmost | Southernmost |
+State | Easternmost  | Westernmost  | Northernmost | Southernmost |
 ===================================================================
 AA    |        34034 |        34034 |        34034 |        34034 |
 AK    |        99546 |        99923 |        99723 |        99546 |
