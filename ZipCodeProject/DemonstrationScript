@@ -1,0 +1,217 @@
+Script started on 2025-02-15 20:36:28+00:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="184" LINES="23"]
+[0;32m@bi4646nv [0m➜ [1;34m/workspaces/Team2CSCI331/ZipCodeProject [0;36m([1;31mmain[0;36m) [0m$ ls
+Buffer.cpp  Buffer.h  DemonstrationScript  README.md  SortedLocations.csv  SortedLocations.txt  ZipCodeGroupProject.pdf  doxyconfig  main.cpp  us_postal_codes.csv
+[0;32m@bi4646nv [0m➜ [1;34m/workspaces/Team2CSCI331/ZipCodeProject [0;36m([1;31mmain[0;36m) [0m$ g++ -o location_processor main.cpp Buffer.cpp
+[0;32m@bi4646nv [0m➜ [1;34m/workspaces/Team2CSCI331/ZipCodeProject [0;36m([1;31mmain[0;36m) [0m$ ./lc[Kocation_processor 
+Do you want to sort by Zip Code (Z) or Place Name (P): a
+Invalid choice! Please enter 'Z' for Zip Code or 'P' for Place Name.
+Do you want to sort by Zip Code (Z) or Place Name (P): b
+Invalid choice! Please enter 'Z' for Zip Code or 'P' for Place Name.
+Do you want to sort by Zip Code (Z) or Place Name (P): c
+Invalid choice! Please enter 'Z' for Zip Code or 'P' for Place Name.
+Do you want to sort by Zip Code (Z) or Place Name (P): z
+Warning: Missing county on line: 96940,Palau,PW,,7.2257,134.3622
+Warning: Missing county on line: 96941,Pohnpei,FM,,7.1383,151.5031
+Warning: Missing county on line: 96942,Chuuk,FM,,7.1383,151.5031
+Warning: Missing county on line: 96943,Yap,FM,,7.1383,151.5031
+Warning: Missing county on line: 96944,Kosrae,FM,,7.1383,151.5031
+Output written to SortedLocations.txt and SortedLocations.csv
+[0;32m@bi4646nv [0m➜ [1;34m/workspaces/Team2CSCI331/ZipCodeProject [0;36m([1;31mmain[0;36m) [0m$ cat SortedLocations.txt
+State | Easternmost  | Westernmost  | Northernmost | Southernmost |
+===================================================================
+AA    |        34034 |        34034 |        34034 |        34034 |
+AK    |        99546 |        99923 |        99723 |        99546 |
+AL    |        36584 |        36856 |        35739 |        36547 |
+AP    |        96373 |        96507 |        96507 |        96373 |
+AR    |        72747 |        72310 |        72733 |        71749 |
+AZ    |        85349 |        86508 |        86021 |        85620 |
+CA    |        95536 |        92267 |        95567 |        92173 |
+CO    |        81411 |        81047 |        81653 |        81138 |
+CT    |         6831 |         6243 |         6079 |         6836 |
+DC    |        20016 |        20019 |        20012 |        20375 |
+DE    |        19716 |        19944 |        19810 |        19975 |
+FL    |        32568 |        33480 |        32452 |        33040 |
+FM    |        96941 |        96941 |        96941 |        96941 |
+GA    |        30752 |        31328 |        30751 |        31562 |
+HI    |        96769 |        96898 |        96722 |        96772 |
+IA    |        51001 |        52734 |        52160 |        52632 |
+ID    |        83844 |        83238 |        83826 |        83237 |
+IL    |        62379 |        60438 |        60075 |        62914 |
+IN    |        47631 |        47003 |        46530 |        47635 |
+KS    |        67836 |        66118 |        66955 |        66778 |
+KY    |        42050 |        41568 |        41074 |        42049 |
+LA    |        71007 |        70081 |        71075 |        70081 |
+MA    |         1258 |         2643 |         1913 |         2564 |
+MD    |        21531 |        21842 |        21088 |        21866 |
+ME    |         4261 |         4631 |         4741 |         3904 |
+MH    |        96970 |        96960 |        96970 |        96960 |
+MI    |        49938 |        48061 |        49918 |        49232 |
+MN    |        56740 |        55605 |        56711 |        55931 |
+MO    |        64496 |        63881 |        63535 |        63829 |
+MP    |        96951 |        96950 |        96951 |        96952 |
+MS    |        39121 |        38847 |        38671 |        39558 |
+MT    |        59844 |        59319 |        59484 |        59739 |
+NC    |        28903 |        27982 |        28631 |        28468 |
+ND    |        58621 |        58074 |        58255 |        58043 |
+NE    |        69352 |        68431 |        69365 |        68325 |
+NH    |         3466 |         3854 |         3592 |         3062 |
+NJ    |         8070 |         7620 |         7827 |         8212 |
+NM    |        88056 |        88135 |        87418 |        88063 |
+NV    |        89402 |        89034 |        89404 |        89029 |
+NY    |        14736 |        11954 |        12979 |        10307 |
+OH    |        45003 |        44438 |        44030 |        45680 |
+OK    |        73946 |        74901 |        74072 |        74747 |
+OR    |        97465 |        97842 |        97121 |        97635 |
+PA    |        16155 |        18336 |        16428 |        19351 |
+PW    |        96940 |        96940 |        96940 |        96940 |
+RI    |         2891 |         2837 |         2824 |         2807 |
+SC    |        29658 |        29566 |        29356 |        29915 |
+SD    |        57724 |        57068 |        57645 |        57049 |
+TN    |        38109 |        37680 |        37119 |        37396 |
+TX    |        79821 |        75932 |        79051 |        78522 |
+UT    |        84083 |        84534 |        84331 |        84784 |
+VA    |        24248 |        23336 |        22625 |        24580 |
+VT    |         5734 |         5902 |         5902 |         5352 |
+WA    |        98350 |        99402 |        98231 |        98671 |
+WI    |        54082 |        54246 |        54850 |        53102 |
+WV    |        25555 |        25425 |        26050 |        24884 |
+WY    |        83120 |        82082 |        82423 |        82321 |
+[0;32m@bi4646nv [0m➜ [1;34m/workspaces/Team2CSCI331/ZipCodeProject [0;36m([1;31mmain[0;36m) [0m$ cat SortedLocations.txt[2P./location_processor 
+Do you want to sort by Zip Code (Z) or Place Name (P): p
+Warning: Missing county on line: 96940,Palau,PW,,7.2257,134.3622
+Warning: Missing county on line: 96941,Pohnpei,FM,,7.1383,151.5031
+Warning: Missing county on line: 96942,Chuuk,FM,,7.1383,151.5031
+Warning: Missing county on line: 96943,Yap,FM,,7.1383,151.5031
+Warning: Missing county on line: 96944,Kosrae,FM,,7.1383,151.5031
+Output written to SortedLocations.txt and SortedLocations.csv
+[0;32m@bi4646nv [0m➜ [1;34m/workspaces/Team2CSCI331/ZipCodeProject [0;36m([1;31mmain[0;36m) [0m$ ./location_processor cat SortedLocations.txt
+State | Easternmost          | Westernmost          | Northernmost         | Southernmost         |
+===================================================================================================
+AA    | APO                  | APO                  | APO                  | APO                  |
+AK    | Adak                 | Hyder                | Barrow               | Adak                 |
+AL    | Vinegar Bend         | Fort Mitchell        | Ardmore              | Gulf Shores          |
+AP    | FPO                  | FPO                  | FPO                  | FPO                  |
+AR    | Maysville            | Armorel              | Gateway              | Junction City        |
+AZ    | San Luis             | Lupton               | Colorado City        | Naco                 |
+CA    | Ferndale             | Parker Dam           | Smith River          | San Ysidro           |
+CO    | Bedrock              | Holly                | Slater               | Jaroso               |
+CT    | Greenwich            | East Killingly       | Taconic              | Greenwich            |
+DC    | Washington           | Washington           | Washington           | Washington           |
+DE    | Newark               | Fenwick Island       | Wilmington           | Selbyville           |
+FL    | Mc David             | Palm Beach           | Noma                 | Key West             |
+FM    | Chuuk                | Chuuk                | Chuuk                | Chuuk                |
+GA    | Trenton              | Tybee Island         | Tennga               | Saint George         |
+HI    | Makaweli             | Wake Island          | Princeville          | Naalehu              |
+IA    | Akron                | Clinton              | New Albin            | Keokuk               |
+ID    | Moscow               | Geneva               | Eastport             | Franklin             |
+IL    | Warsaw               | Lansing              | Russell              | Cairo                |
+IN    | New Harmony          | West College Corner  | Granger              | Rockport             |
+KS    | Coolidge             | Kansas City          | Mahaska              | Treece               |
+KY    | Hickman              | Stopover             | Dayton               | Hazel                |
+LA    | Bethany              | Pilottown            | Springhill           | Pilottown            |
+MA    | South Egremont       | East Orleans         | Amesbury             | Siasconset           |
+MD    | Friendsville         | Ocean City           | Lineboro             | Tylerton             |
+ME    | Newry                | Eastport             | Estcourt Station     | Kittery              |
+MH    | Ebeye                | Marshall Islands     | Ebeye                | Marshall Islands     |
+MI    | Ironwood             | Port Huron           | Copper Harbor        | Camden               |
+MN    | Noyes                | Grand Portage        | Angle Inlet          | Eitzen               |
+MO    | Watson               | Wolf Island          | Coatsville           | Cardwell             |
+MP    | Rota                 | Saipan               | Rota                 | Tinian               |
+MS    | Natchez              | Golden               | Southaven            | Lakeshore            |
+MT    | Heron                | Capitol              | Sweet Grass          | Lima                 |
+NC    | Culberson            | Waves                | Grassy Creek         | Sunset Beach         |
+ND    | Beach                | Wahpeton             | Maida                | Havana               |
+NE    | Lyman                | Rulo                 | Whiteclay            | Byron                |
+NH    | West Chesterfield    | New Castle           | Pittsburg            | Nashua               |
+NJ    | Pennsville           | Alpine               | Montague             | Cape May Point       |
+NM    | Rodeo                | Texico               | La Plata             | Sunland Park         |
+NV    | Crystal Bay          | Mesquite             | Denio                | Laughlin             |
+NY    | Findley Lake         | Montauk              | Rouses Point         | Staten Island        |
+OH    | College Corner       | Masury               | Conneaut             | South Point          |
+OK    | Kenton               | Arkoma               | S Coffeyville        | Kemp                 |
+OR    | Port Orford          | Imnaha               | Hammond              | New Pine Creek       |
+PA    | Villa Maria          | Matamoras            | North East           | Lewisville           |
+PW    | Palau                | Palau                | Palau                | Palau                |
+RI    | Westerly             | Little Compton       | Forestdale           | Block Island         |
+SC    | Long Creek           | Little River         | Landrum              | Daufuskie Island     |
+SD    | Camp Crook           | Valley Springs       | Morristown           | North Sioux City     |
+TN    | Memphis              | Laurel Bloomery      | Mitchellville        | Whiteside            |
+TX    | Anthony              | Burkeville           | Kerrick              | Brownsville          |
+UT    | Wendover             | Montezuma Creek      | Portage              | Hildale              |
+VA    | Ewing                | Chincoteague Island  | Cross Junction       | Nelson               |
+VT    | Bridport             | Beecher Falls        | Beecher Falls        | Stamford             |
+WA    | La Push              | Asotin               | Blaine               | Washougal            |
+WI    | Houlton              | Washington Island    | La Pointe            | Benet Lake           |
+WV    | Prichard             | Harpers Ferry        | Newell               | Squire               |
+WY    | Freedom              | Pine Bluffs          | Frannie              | Baggs                |
+[0;32m@bi4646nv [0m➜ [1;34m/workspaces/Team2CSCI331/ZipCodeProject [0;36m([1;31mmain[0;36m) [0m$ cat SortedLocations.txt[2P./location_processor 
+Do you want to sort by Zip Code (Z) or Place Name (P): z
+Warning: Missing county on line: 96940,Palau,PW,,7.2257,134.3622
+Warning: Missing county on line: 96941,Pohnpei,FM,,7.1383,151.5031
+Warning: Missing county on line: 96942,Chuuk,FM,,7.1383,151.5031
+Warning: Missing county on line: 96943,Yap,FM,,7.1383,151.5031
+Warning: Missing county on line: 96944,Kosrae,FM,,7.1383,151.5031
+Output written to SortedLocations.txt and SortedLocations.csv
+[0;32m@bi4646nv [0m➜ [1;34m/workspaces/Team2CSCI331/ZipCodeProject [0;36m([1;31mmain[0;36m) [0m$ cat SortedLocations.csv
+State,Easternmost,Westernmost,Northernmost,Southernmost
+AA,34034,34034,34034,34034
+AK,99546,99923,99723,99546
+AL,36584,36856,35739,36547
+AP,96373,96507,96507,96373
+AR,72747,72310,72733,71749
+AZ,85349,86508,86021,85620
+CA,95536,92267,95567,92173
+CO,81411,81047,81653,81138
+CT,6831,6243,6079,6836
+DC,20016,20019,20012,20375
+DE,19716,19944,19810,19975
+FL,32568,33480,32452,33040
+FM,96941,96941,96941,96941
+GA,30752,31328,30751,31562
+HI,96769,96898,96722,96772
+IA,51001,52734,52160,52632
+ID,83844,83238,83826,83237
+IL,62379,60438,60075,62914
+IN,47631,47003,46530,47635
+KS,67836,66118,66955,66778
+KY,42050,41568,41074,42049
+LA,71007,70081,71075,70081
+MA,1258,2643,1913,2564
+MD,21531,21842,21088,21866
+ME,4261,4631,4741,3904
+MH,96970,96960,96970,96960
+MI,49938,48061,49918,49232
+MN,56740,55605,56711,55931
+MO,64496,63881,63535,63829
+MP,96951,96950,96951,96952
+MS,39121,38847,38671,39558
+MT,59844,59319,59484,59739
+NC,28903,27982,28631,28468
+ND,58621,58074,58255,58043
+NE,69352,68431,69365,68325
+NH,3466,3854,3592,3062
+NJ,8070,7620,7827,8212
+NM,88056,88135,87418,88063
+NV,89402,89034,89404,89029
+NY,14736,11954,12979,10307
+OH,45003,44438,44030,45680
+OK,73946,74901,74072,74747
+OR,97465,97842,97121,97635
+PA,16155,18336,16428,19351
+PW,96940,96940,96940,96940
+RI,2891,2837,2824,2807
+SC,29658,29566,29356,29915
+SD,57724,57068,57645,57049
+TN,38109,37680,37119,37396
+TX,79821,75932,79051,78522
+UT,84083,84534,84331,84784
+VA,24248,23336,22625,24580
+VT,5734,5902,5902,5352
+WA,98350,99402,98231,98671
+WI,54082,54246,54850,53102
+WV,25555,25425,26050,24884
+WY,83120,82082,82423,82321
+[0;32m@bi4646nv [0m➜ [1;34m/workspaces/Team2CSCI331/ZipCodeProject [0;36m([1;31mmain[0;36m) [0m$ exit
+exit
+
+Script done on 2025-02-15 20:37:33+00:00 [COMMAND_EXIT_CODE="0"]
