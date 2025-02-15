@@ -17,6 +17,7 @@ Run with this command:
 
 Upon running, the user will be prompted like this:
 `Default file input: "us_postal_codes.csv"`
+
 `Would you like to change this? (Y/N):`
 This allows for the user to specify their input file or to use the default one.
 
