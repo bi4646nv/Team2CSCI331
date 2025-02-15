@@ -42,3 +42,5 @@ If the user does not use a proper input file, they will recieve a message like t
 `Error: Could not open the file nonexistentfile.csv`
 
 `Error: Unable to read CSV file: nonexistentfile.csv`
+
+`sample_zip_codes.csv` is given in the project folder to use as a tester file.
