@@ -27,8 +27,8 @@ If there is missing data in the input CSV file, the user will recieve warnings l
 `...`
 
 If the user does not use a proper input file, they will recieve a message like this:
-`Default file input: "us_postal_codes.csv"`
-`Would you like to change this? (Y/N): y`
-`Enter the input file name: nonexistentfile.csv`
-`Error: Could not open the file nonexistentfile.csv`
-`Error: Unable to read CSV file: nonexistentfile.csv`
+```Default file input: "us_postal_codes.csv"```
+```Would you like to change this? (Y/N): y```
+```Enter the input file name: nonexistentfile.csv```
+```Error: Could not open the file nonexistentfile.csv```
+```Error: Unable to read CSV file: nonexistentfile.csv```
