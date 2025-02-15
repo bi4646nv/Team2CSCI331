@@ -40,7 +40,7 @@ struct ZipCodeRecord {
 class Buffer {
 public:
     /**
-     * @brief Reads a CSV file, validates, and stores ZIP code records.
+     * @brief Reads a CSV file, validates data integrity, and stores ZIP code records.
      * @param filename The name of the CSV file to read.
      * @param records Vector to store the read ZIP code records.
      * @return True if the file is read successfully, false otherwise.
