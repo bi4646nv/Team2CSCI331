@@ -1,0 +1,59 @@
+State | Easternmost          | Westernmost          | Northernmost         | Southernmost         |
+===================================================================================================
+AA    | APO                  | APO                  | APO                  | APO                  |
+AK    | Adak                 | Hyder                | Barrow               | Adak                 |
+AL    | Vinegar Bend         | Fort Mitchell        | Ardmore              | Gulf Shores          |
+AP    | FPO                  | FPO                  | FPO                  | FPO                  |
+AR    | Maysville            | Armorel              | Gateway              | Junction City        |
+AZ    | San Luis             | Lupton               | Colorado City        | Naco                 |
+CA    | Ferndale             | Parker Dam           | Smith River          | San Ysidro           |
+CO    | Bedrock              | Holly                | Slater               | Jaroso               |
+CT    | Greenwich            | East Killingly       | Taconic              | Greenwich            |
+DC    | Washington           | Washington           | Washington           | Washington           |
+DE    | Newark               | Fenwick Island       | Wilmington           | Selbyville           |
+FL    | Mc David             | Palm Beach           | Noma                 | Key West             |
+FM    | Chuuk                | Chuuk                | Chuuk                | Chuuk                |
+GA    | Trenton              | Tybee Island         | Tennga               | Saint George         |
+HI    | Makaweli             | Wake Island          | Princeville          | Naalehu              |
+IA    | Akron                | Clinton              | New Albin            | Keokuk               |
+ID    | Moscow               | Geneva               | Eastport             | Franklin             |
+IL    | Warsaw               | Lansing              | Russell              | Cairo                |
+IN    | New Harmony          | West College Corner  | Granger              | Rockport             |
+KS    | Coolidge             | Kansas City          | Mahaska              | Treece               |
+KY    | Hickman              | Stopover             | Dayton               | Hazel                |
+LA    | Bethany              | Pilottown            | Springhill           | Pilottown            |
+MA    | South Egremont       | East Orleans         | Amesbury             | Siasconset           |
+MD    | Friendsville         | Ocean City           | Lineboro             | Tylerton             |
+ME    | Newry                | Eastport             | Estcourt Station     | Kittery              |
+MH    | Ebeye                | Marshall Islands     | Ebeye                | Marshall Islands     |
+MI    | Ironwood             | Port Huron           | Copper Harbor        | Camden               |
+MN    | Noyes                | Grand Portage        | Angle Inlet          | Eitzen               |
+MO    | Watson               | Wolf Island          | Coatsville           | Cardwell             |
+MP    | Rota                 | Saipan               | Rota                 | Tinian               |
+MS    | Natchez              | Golden               | Southaven            | Lakeshore            |
+MT    | Heron                | Capitol              | Sweet Grass          | Lima                 |
+NC    | Culberson            | Waves                | Grassy Creek         | Sunset Beach         |
+ND    | Beach                | Wahpeton             | Maida                | Havana               |
+NE    | Lyman                | Rulo                 | Whiteclay            | Byron                |
+NH    | West Chesterfield    | New Castle           | Pittsburg            | Nashua               |
+NJ    | Pennsville           | Alpine               | Montague             | Cape May Point       |
+NM    | Rodeo                | Texico               | La Plata             | Sunland Park         |
+NV    | Crystal Bay          | Mesquite             | Denio                | Laughlin             |
+NY    | Findley Lake         | Montauk              | Rouses Point         | Staten Island        |
+OH    | College Corner       | Masury               | Conneaut             | South Point          |
+OK    | Kenton               | Arkoma               | S Coffeyville        | Kemp                 |
+OR    | Port Orford          | Imnaha               | Hammond              | New Pine Creek       |
+PA    | Villa Maria          | Matamoras            | North East           | Lewisville           |
+PW    | Palau                | Palau                | Palau                | Palau                |
+RI    | Westerly             | Little Compton       | Forestdale           | Block Island         |
+SC    | Long Creek           | Little River         | Landrum              | Daufuskie Island     |
+SD    | Camp Crook           | Valley Springs       | Morristown           | North Sioux City     |
+TN    | Memphis              | Laurel Bloomery      | Mitchellville        | Whiteside            |
+TX    | Anthony              | Burkeville           | Kerrick              | Brownsville          |
+UT    | Wendover             | Montezuma Creek      | Portage              | Hildale              |
+VA    | Ewing                | Chincoteague Island  | Cross Junction       | Nelson               |
+VT    | Bridport             | Beecher Falls        | Beecher Falls        | Stamford             |
+WA    | La Push              | Asotin               | Blaine               | Washougal            |
+WI    | Houlton              | Washington Island    | La Pointe            | Benet Lake           |
+WV    | Prichard             | Harpers Ferry        | Newell               | Squire               |
+WY    | Freedom              | Pine Bluffs          | Frannie              | Baggs                |
