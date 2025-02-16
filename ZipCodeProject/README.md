@@ -35,4 +35,4 @@ Once the program is finished, a termination message will be produced:
 
 `Output written to SortedLocations.txt and SortedLocations.csv`
 
-Documentation done through Doxygen can be seen in `ZipCodeGroupProject.pdf`
+Documentation done through Doxygen can be seen in `DoxygenPDF.pdf`
