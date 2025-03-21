@@ -25,8 +25,8 @@ using namespace std;
  * @brief Structure to hold zip code data for a given location.
  */
 struct ZipCodeRecord {
-    int zip_code;         ///< zip code of the location.
-    string place_name;    ///< City or place name.
+    int zip_code;         ///< Zip code of the location.
+    string place_name;    ///< City/location name.
     string state;         ///< Two-letter state abbreviation.
     string county;        ///< County name (can be empty).
     double lat;           ///< Latitude coordinate of the location.

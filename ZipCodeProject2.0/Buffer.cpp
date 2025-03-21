@@ -16,17 +16,15 @@ bool Buffer::readLengthIndicatedFile(const string& filename, vector<ZipCodeRecor
 
     string line;
     while (getline(file, line)) {
-        if (line.size() < 3) {  // Ensure valid line
+        if (line.size() < 3) {  // Check for valid line format
             cerr << "Error: Malformed record: " << line << endl;
             continue;
         }
 
-        // Extract first two characters as length
-        string lengthStr = line.substr(0, 2);
-        int recordLength = stoi(lengthStr); // Convert to integer
+        string lengthStr = line.substr(0, 2); // Extract first two characters as length
+        int recordLength = stoi(lengthStr); // Convert to length value integer
 
-        // Extract actual CSV record after the length
-        string recordData = line.substr(3);
+        string recordData = line.substr(3); // Extract the actual CSV record after the length is processed
 
         stringstream ss(recordData);
         ZipCodeRecord record;
