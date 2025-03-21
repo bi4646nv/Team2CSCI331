@@ -49,9 +49,9 @@ int main() {
         }
     }
 
-    HeaderBuffer::FileHeader header = HeaderBuffer::readHeader(filename); // Read file header
+    HeaderBuffer::FileHeader header = HeaderBuffer::readHeader(filename); // Read the file header
+    HeaderBuffer::printHeader(header); // Print the file header
 
-    
     if (!buffer.readLengthIndicatedFile(filename, records)) { // Read length-indicated file
         cerr << "Error: Unable to read length-indicated file: " << filename << endl;
         return -1;

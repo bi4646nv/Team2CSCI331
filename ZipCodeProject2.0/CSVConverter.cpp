@@ -4,50 +4,67 @@
  */
 
 #include "CSVConverter.h"
-#include <iomanip>  // For setw() and setfill()
- 
+#include <iomanip>
+
 void CSVConverter::convertToLengthIndicated(const string& csvFilename, const string& outputFilename) {
     ifstream inputFile(csvFilename);
 
     string modifiedOutputFilename = outputFilename;
-    if (modifiedOutputFilename.find(".txt") != string::npos) { // Ensure correct file extension (replace .txt with .csv if needed)
+    if (modifiedOutputFilename.find(".txt") != string::npos) {
         modifiedOutputFilename.replace(modifiedOutputFilename.find(".txt"), 4, ".csv");
     }
- 
-    ofstream outputFile(modifiedOutputFilename);  // Open as text file
-     
-    if (!inputFile.is_open() || !outputFile.is_open()) {
-        cerr << "Error opening files!" << endl;
+
+    if (!inputFile.is_open()) {
+        cerr << "Error: Could not open input file: " << csvFilename << endl;
         return;
     }
- 
-    // Write file header
-    HeaderBuffer::FileHeader header = {"ZipCodeData", 1, 128, "ASCII", "index.txt", 0, 6};
-    HeaderBuffer::writeHeader(modifiedOutputFilename, header);
- 
+
+    ofstream outputFile(modifiedOutputFilename, ios::trunc); // Create a blank file to prepare writing
+    outputFile.close(); // File is cleared and ready
+
+    // Define the file header metadata
+    HeaderBuffer::FileHeader header = {
+        "ZipCodeData",     // fileType
+        1,                 // version
+        128,               // headerSize (arbitrary)
+        2,                 // recordSizeBytes (2-digit ASCII length prefix)
+        "ASCII",           // sizeFormat
+        "zip_index.txt",   // indexFileName
+        0,                 // recordCount (placeholder, will update later)
+        6,                 // fieldCount
+        {
+            {"zip_code", "int"},
+            {"place_name", "string"},
+            {"state", "string"},
+            {"county", "string"},
+            {"lat", "double"},
+            {"lon", "double"}
+        },
+        1                  // primaryKeyField
+    };
+
+    HeaderBuffer::writeHeader(modifiedOutputFilename, header); // STEP 3: Write the header to the file
+
+    // Append records with length-indicated lines
+    ofstream appendFile(modifiedOutputFilename, ios::app);
     string line;
-    getline(inputFile, line); // Skip CSV header row
-     
+    getline(inputFile, line); // Skip CSV column header
+
     int recordCount = 0;
     while (getline(inputFile, line)) {
         int length = line.size();
-         
-        // Store length as a 2-digit ASCII number (makes sure that anything less than 10 characters is in the form 0x)
         string lengthStr = (length < 10) ? "0" + to_string(length) : to_string(length);
- 
-        // Write length as text, followed by the record
-        outputFile << lengthStr << "," << line << '\n';
- 
+        appendFile << lengthStr << "," << line << '\n';
         recordCount++;
     }
- 
-    // Update record count in header
+
+    appendFile.close();
+    inputFile.close();
+
+    // Update header with final record count
     header.recordCount = recordCount;
     HeaderBuffer::writeHeader(modifiedOutputFilename, header);
-     
-    // Close files
-    inputFile.close();
-    outputFile.close();
-    cout << "Converted " << csvFilename << " to " << modifiedOutputFilename << " (length-indicated format)." << endl; // Completion message
+
+    cout << "Converted " << csvFilename << " to " << modifiedOutputFilename
+         << " (length-indicated format)." << endl;
 }
- 
