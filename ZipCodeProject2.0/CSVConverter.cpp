@@ -43,13 +43,13 @@ void CSVConverter::convertToLengthIndicated(const string& csvFilename, const str
         1                  // primaryKeyField
     };
 
-    HeaderBuffer::writeHeader(modifiedOutputFilename, header); // STEP 3: Write the header to the file
+    HeaderBuffer::writeHeader(modifiedOutputFilename, header); // Write the header to the file
 
     // Append records with length-indicated lines
     ofstream appendFile(modifiedOutputFilename, ios::app);
     string line;
     getline(inputFile, line); // Skip CSV column header
-
+    
     int recordCount = 0;
     while (getline(inputFile, line)) {
         int length = line.size();

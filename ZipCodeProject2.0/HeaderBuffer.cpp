@@ -20,7 +20,7 @@ void HeaderBuffer::writeHeader(const string& filename, const FileHeader& header)
         return;
     }
 
-    // Write fixed fields
+    // Write fixed header fields
     temp << header.fileType << "\n"
          << header.version << "\n"
          << header.headerSize << "\n"
@@ -30,25 +30,31 @@ void HeaderBuffer::writeHeader(const string& filename, const FileHeader& header)
          << header.recordCount << "\n"
          << header.fieldCount << "\n";
 
-    for (const auto& field : header.fieldSchemas) { // Write field schemas
-        temp << field.first << "," << field.second << "\n"; // Keep field schemas on one line
+    // Write field schemas (name,type)
+    for (const auto& field : header.fieldSchemas) {
+        temp << field.first << "," << field.second << "\n";
     }
 
-    temp << header.primaryKeyField << "\n"; // Write primary key index
+    // Write primary key index
+    temp << header.primaryKeyField << "\n";
 
-    string dummy; // Skip old header and copy remaining lines
-    for (int i = 0; i < 8 + 2 * header.fieldSchemas.size() + 1; ++i)
-        getline(original, dummy);
+    // Safely skip header lines (only if they exist)
+    int linesToSkip = 8 + header.fieldSchemas.size() + 1;
+    string dummy;
+    int skipped = 0;
+    while (skipped < linesToSkip && getline(original, dummy)) {
+        skipped++;
+    }
 
-    string line; // Copy the remaining data
+    // Copy remaining data records
+    string line;
     while (getline(original, line)) {
         temp << line << '\n';
     }
 
-    // Close files
+    // Finalize file replacement
     original.close();
     temp.close();
-
     remove(filename.c_str());
     rename(tempFile.c_str(), filename.c_str());
 }
