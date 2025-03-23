@@ -26,7 +26,7 @@ void CSVConverter::convertToLengthIndicated(const string& csvFilename, const str
     HeaderBuffer::FileHeader header = {
         "ZipCodeData",     // fileType
         1,                 // version
-        128,               // headerSize (arbitrary)
+        84,                // headerSize (arbitrary)
         2,                 // recordSizeBytes (2-digit ASCII length prefix)
         "ASCII",           // sizeFormat
         "zip_index.txt",   // indexFileName
