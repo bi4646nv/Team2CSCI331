@@ -35,8 +35,7 @@ void HeaderBuffer::writeHeader(const string& filename, const FileHeader& header)
         temp << field.first << "," << field.second << "\n";
     }
 
-    // Write primary key index
-    temp << header.primaryKeyField << "\n";
+    temp << header.primaryKeyField << "\n"; // Write primary key index
 
     // Safely skip header lines (only if they exist)
     int linesToSkip = 8 + header.fieldSchemas.size() + 1;
