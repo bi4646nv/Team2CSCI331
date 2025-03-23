@@ -1,0 +1,63 @@
+
+
+ User Guide for ZipCodeProject2.0
+
+ 1. Introduction
+    
+    This project processes Zip Code and Place Name data from a CSV file, organizing it by state and 
+    finding:
+   
+    -- Easternmost Zip Code/Place Name (smallest longitude)
+    -- Westernmost Zip Code/Place Name (largest longitude)
+    -- Northernmost Zip Code/Place Name (largest latitude)
+    -- Southernmost Zip Code/Place Name (smallest latitude)
+
+2. Functiionality
+
+    By default, the program uses 'us_postal_codes.csv' as the input file.
+
+   To compile use these commands:
+
+   g++ -o converter CSVConverterMain.cpp CSVConverter.cpp HeaderBuffer.cpp
+   
+   To run enter this command:
+
+   ./converter
+    
+
+    g++ -o zip_processor main.cpp Buffer.cpp HeaderBuffer.cpp
+
+    To run enter this command:
+ 
+    ./zip_processor
+
+3. User Preference
+
+    Upon running, the user will be prompted like this:
+
+    'Do you want to sort by Zip Code (Z) or Place Name (P): '
+
+    This allows for the user to specify whether the data should be sorted by Zip Code or Place Name.
+    
+    If the user does not enter 'z' or 'p' (not case sensitive), the program will continue prompting 
+    
+    the user.
+
+    If there is missing data in the input CSV file, the user will receive warnings like this:
+
+    'Warning: Missing county on line: 96940, Palau, PW,,7.2257,134.3622'
+    
+    'Warning: Missing county on line: 96941, Pohnpei, FM,,7.1383,151.5031'
+
+4. Output/Termination
+
+    The results are written to:
+    - SortedLocations.txt (formatted text output)
+    - SortedLocations.csv (CSV output)
+
+    ONCE THE PROGRAM IS FINISHED, A TERMINATION MESSAGE WILL BE PRODUCED:
+    
+    'Output written to SortedLocations.txt and SortedLocations.csv'
+
+    Documentation done through Doxygen can be seen in 'DoxygenPDF.pdf'
+    
