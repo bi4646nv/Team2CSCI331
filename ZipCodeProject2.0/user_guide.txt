@@ -1,63 +1,63 @@
+User Guide for ZipCodeProject 2.0
+---------------------------------
+1. Introduction
 
+   This project processes Zip Code and Place Name data from a CSV file, organizing it by state and finding:
+    - Easternmost Zip Code/Place Name (least longitude)
+    - Westernmost Zip Code/Place Name (greatest longitude)
+    - Southernmost Zip Code/Place Name (least latitude)
+    - Northernmost Zip Code/Place Name (greatest latitude)
 
- User Guide for ZipCodeProject2.0
+### This is basically Part 1's information, no mention of Part 2 stuff
 
- 1. Introduction
-    
-    This project processes Zip Code and Place Name data from a CSV file, organizing it by state and 
-    finding:
-   
-    -- Easternmost Zip Code/Place Name (smallest longitude)
-    -- Westernmost Zip Code/Place Name (largest longitude)
-    -- Northernmost Zip Code/Place Name (largest latitude)
-    -- Southernmost Zip Code/Place Name (smallest latitude)
+-----
+2. Converter Program (Part 1)
 
-2. Functiionality
-
-    By default, the program uses 'us_postal_codes.csv' as the input file.
-
-   To compile use these commands:
-
-   g++ -o converter CSVConverterMain.cpp CSVConverter.cpp HeaderBuffer.cpp
+   To compile the converter, enter this command:
+   "g++ -o converter CSVConverterMain.cpp CSVConverter.cpp HeaderBuffer.cpp"
    
    To run enter this command:
+   "./converter"
 
-   ./converter
+### Include information about what the converter program does and the output.
+### Include the information on how the headers work
+
+-----
+3. Zip Processor Program (Part 1)
+
+   To compile the table creation program, enter this command:
+   "g++ -o zip_processor main.cpp Buffer.cpp HeaderBuffer.cpp"
+
+   To run enter this command:
+   "./zip_processor"
+
+   Upon running, the user will be prompted as such:
+   "Do you want to sort by Zip Code (Z) or Place Name (P): "
+
+   This allows for the user to specify whether the data should be sorted by Zip Code or Place Name.
+   If the user does not enter 'Z' or 'P' (not case sensitive), the program will continue prompting the user.
+
+   If there is missing data in the input CSV file, the user will receive warnings like such:
+   "Warning: Missing county on line: 96940, Palau, PW,,7.2257,134.3622"
     
-
-    g++ -o zip_processor main.cpp Buffer.cpp HeaderBuffer.cpp
-
-    To run enter this command:
- 
-    ./zip_processor
-
-3. User Preference
-
-    Upon running, the user will be prompted like this:
-
-    'Do you want to sort by Zip Code (Z) or Place Name (P): '
-
-    This allows for the user to specify whether the data should be sorted by Zip Code or Place Name.
-    
-    If the user does not enter 'z' or 'p' (not case sensitive), the program will continue prompting 
-    
-    the user.
-
-    If there is missing data in the input CSV file, the user will receive warnings like this:
-
-    'Warning: Missing county on line: 96940, Palau, PW,,7.2257,134.3622'
-    
-    'Warning: Missing county on line: 96941, Pohnpei, FM,,7.1383,151.5031'
-
-4. Output/Termination
-
-    The results are written to:
+   The results are written to:
     - SortedLocations.txt (formatted text output)
     - SortedLocations.csv (CSV output)
 
-    ONCE THE PROGRAM IS FINISHED, A TERMINATION MESSAGE WILL BE PRODUCED:
-    
-    'Output written to SortedLocations.txt and SortedLocations.csv'
+   Termination message upon program completion:
+   'Output written to SortedLocations.txt and SortedLocations.csv'
 
-    Documentation done through Doxygen can be seen in 'DoxygenPDF.pdf'
-    
+### Should be more a bit more information on what this program does
+
+-----
+4. Zip Indexing Programs (Part 2)
+
+### Include any information that would be useful to the user about the zip indexing programs
+
+
+
+-----
+5. Documentation
+
+### Include information about the various types of documentation that we will do.
+   Documentation done through Doxygen can be seen in 'DoxygenPDF.pdf'
