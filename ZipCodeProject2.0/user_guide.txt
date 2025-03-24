@@ -30,12 +30,12 @@ User Guide for ZipCodeProject 2.0
 
 
    The second part of this application focuses on efficient record lookup by using a primary key index. After the
-   length-indicated CSV files are generated in Part 1, the application builds a primary key index file
+   length-indicated CSV files are generated in Part I, the application builds a primary key index file
    (zip_index.txt) from said CSV input file and by saving each zip code's corresponding byte offset to enable direct
    access. Record lookup is done by telling the program a zipcode to search for and then finding its byte offset.
 
 ---------------------------------
-2. Converter Program (Part 1)
+2. Converter Program (Part I)
 -----
    To compile the converter, enter this command:
    "g++ -o converter CSVConverterMain.cpp CSVConverter.cpp HeaderBuffer.cpp"
@@ -57,7 +57,7 @@ User Guide for ZipCodeProject 2.0
    The header information is explained in the Introduction above and they are read in the processor program below.
 
 ---------------------------------
-3. Zip Processor Program (Part 1)
+3. Zip Processor Program (Part I)
 -----
    To compile the zip processor, enter this command:
    "g++ -o zip_processor main.cpp Buffer.cpp HeaderBuffer.cpp"
@@ -104,9 +104,9 @@ User Guide for ZipCodeProject 2.0
    "Output written to SortedLocations.txt and SortedLocations.csv"
 
 ---------------------------------
-4. Zip Indexing/Search Programs (Part 2)
+4. Zip Indexing/Search Programs (Part II)
 -----
-   There are two programs for part 2, one that creates the index and one that searches said index.
+   There are two programs for part II, one that creates the index and one that searches said index.
    
    To compile the zip index builder, enter this command:
    "g++ -o zipIndexBuilder ZipIndexBuilder.cpp ZipIndex.cpp"
