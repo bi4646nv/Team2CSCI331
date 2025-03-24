@@ -137,6 +137,7 @@ int main() {
         
         // Write results to output files
         if (sortChoice == 'Z') {
+            // Output using zip Codes
             outfile_txt << left << setw(stateWidth) << state << " | "
                         << right << setw(fieldWidth) << eastZip << " | "
                         << setw(fieldWidth) << westZip << " | "
@@ -144,6 +145,15 @@ int main() {
                         << setw(fieldWidth) << southZip << " |\n";
 
             outfile_csv << state << "," << eastZip << "," << westZip << "," << northZip << "," << southZip << "\n";
+        } else {
+            // Output using Place Names
+            outfile_txt << left << setw(stateWidth) << state << " | "
+                        << left << setw(fieldWidth) << eastPlace << " | "
+                        << left << setw(fieldWidth) << westPlace << " | "
+                        << left << setw(fieldWidth) << northPlace << " | "
+                        << left << setw(fieldWidth) << southPlace << " |\n";
+
+            outfile_csv << state << "," << eastPlace << "," << westPlace << "," << northPlace << "," << southPlace << "\n";
         }
     }
 
