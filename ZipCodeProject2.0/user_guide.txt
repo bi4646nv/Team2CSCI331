@@ -161,3 +161,5 @@ User Guide for ZipCodeProject 2.0
    We designed the program based on the 'Preliminary Design Document.pdf'.
    Documentation done through Doxygen can be seen in 'Doxygen Documentation.pdf'.
    Testing can be seen in 'Test Document.pdf'.
+
+   Group Members: Thomas Herold, Anastasiya Gorlov, Amen Begashaw, David Devney, and Yvonne Onmakpo
