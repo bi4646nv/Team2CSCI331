@@ -450,7 +450,7 @@ public:
         // Read block
         BlockBuffer block(header.getBlockSize(), header.getRecordSizeBytes());
         std::ifstream readFile(dataFileName, std::ios::binary);
-        block.read(readFile, rbn, header.getHeaderRecordSize());
+        block.read(readFile, rbn + 2, header.getHeaderRecordSize());
         readFile.close();
         
         // Try to remove the record
@@ -510,7 +510,7 @@ public:
             
             // Write block
             std::ofstream writeFile(dataFileName, std::ios::binary | std::ios::in | std::ios::out);
-            block.write(writeFile, rbn, header.getHeaderRecordSize());
+            block.write(writeFile, rbn + 2, header.getHeaderRecordSize());
             writeFile.close();
             
             // Update index if highest key changed
