@@ -198,7 +198,7 @@ public:
         int size = 0;
         size += ("FILE_STRUCTURE=" + fileStructureType + "\n").size();
         size += ("VERSION=" + std::to_string(version) + "\n").size();
-        size += ("HEADER_SIZE=0000\n").size();  // Placeholder
+        size += std::string("HEADER_SIZE=0000").size();
         size += ("RECORD_SIZE_BYTES=" + std::to_string(recordSizeBytes) + "\n").size();
         size += ("SIZE_FORMAT=" + sizeFormatType + "\n").size();
         size += ("BLOCK_SIZE=" + std::to_string(blockSize) + "\n").size();
