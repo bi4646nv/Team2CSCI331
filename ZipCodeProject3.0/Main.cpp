@@ -1,5 +1,5 @@
 /**
- * @file main.cpp
+ * @file Main.cpp
  * @brief Main program for testing the BSS file management
  */
 

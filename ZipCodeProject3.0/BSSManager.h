@@ -11,6 +11,8 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 #include "HeaderRecordBuffer.h"
 #include "BlockBuffer.h"
 #include "RecordBuffer.h"
@@ -59,15 +61,12 @@ private:
      */
     bool writeIndex() {
         std::ofstream file(indexFileName);
-        if (!file.is_open()) {
-            return false;
+        if (!file.is_open()) return false;
+    
+        std::map<std::string, int> sorted(index.begin(), index.end());
+        for (const auto& pair : sorted) {
+            file << pair.first << "," << pair.second << "\n";
         }
-        
-        for (const auto& pair : index) {
-            file << pair.first << "," << pair.second << std::endl;
-        }
-        
-        file.close();
         return true;
     }
     
@@ -77,34 +76,19 @@ private:
      * @return The RBN of the block that should contain the key
      */
     int findBlockByKey(const std::string& key) {
-        if (index.empty()) {
-            readIndex();
+        if (index.empty()) readIndex();
+    
+        // Linear scan: find first block whose highest key is >= the search key
+        for (const auto& pair : index) {
+            if (key <= pair.first) {
+                return pair.second;
+            }
         }
-        
-        // Find the first entry whose key is not less than the search key
-        auto it = index.lower_bound(key);
-        
-        if (it == index.begin()) {
-            // Key is less than or equal to the first block's highest key
-            return it->second;
-        }
-        
-        if (it == index.end()) {
-            // Key is greater than all blocks' highest keys
-            // Return the last block
-            --it;
-            return it->second;
-        }
-        
-        if (it->first == key) {
-            // Exact match on a block boundary
-            return it->second;
-        }
-        
-        // Key is in the previous block
-        --it;
-        return it->second;
+    
+        // If not found, return last block
+        return std::prev(index.end())->second;
     }
+    
     
     /**
      * @brief Update the index with a new highest key for a block
@@ -325,9 +309,15 @@ public:
         // Read block
         BlockBuffer block(header.getBlockSize(), header.getRecordSizeBytes());
         std::ifstream file(dataFileName, std::ios::binary);
-        block.read(file, rbn, header.getHeaderRecordSize());
+        block.read(file, rbn + 2, header.getHeaderRecordSize());
         file.close();
         
+        std::cout << "Block RBN being searched: " << rbn << std::endl;
+        for (const auto& r : block.getRecords()) {
+            std::cout << "   contains zip: [" << r.getZipCode() << "]" << std::endl;
+        }
+
+
         // Search for record in block
         return block.findRecord(zipCode, result);
     }
@@ -339,115 +329,114 @@ public:
      */
     bool insert(const ZipCodeRecord& record) {
         std::string zipCode = record.getZipCode();
-    
+        
         // Check if record already exists
         ZipCodeRecord existingRecord;
         if (search(zipCode, existingRecord)) {
             std::cerr << "Error: Record with Zip Code " << zipCode << " already exists" << std::endl;
             return false;
         }
-    
+        
         // Find block using index
         int rbn = findBlockByKey(zipCode);
-    
+        
         // Read block
         BlockBuffer block(header.getBlockSize(), header.getRecordSizeBytes());
         std::ifstream readFile(dataFileName, std::ios::binary);
         block.read(readFile, rbn, header.getHeaderRecordSize());
         readFile.close();
-    
-        std::string oldHighest = block.getHighestKey();
-    
+        
         // Try to add record to block
         if (block.addRecord(record)) {
-            std::string newHighest = block.getHighestKey();
-    
-            // Write updated block back
+            // Record fits in the block, just update the block
             std::ofstream writeFile(dataFileName, std::ios::binary | std::ios::in | std::ios::out);
             block.write(writeFile, rbn, header.getHeaderRecordSize());
             writeFile.close();
-    
+            
             // Update index if highest key changed
-            if (oldHighest != newHighest) {
-                updateIndex(oldHighest, newHighest, rbn);
+            std::string oldHighest = block.getHighestKey();
+            if (zipCode > oldHighest) {
+                updateIndex(oldHighest, zipCode, rbn);
             }
-    
-            // Update header
+            
+            // Update record count
             header.setRecordCount(header.getRecordCount() + 1);
             std::ofstream headerFile(dataFileName, std::ios::binary | std::ios::in | std::ios::out);
             header.write(headerFile);
             headerFile.close();
-    
+            
+            return true;
+        } else {
+            // Record doesn't fit, need to split the block
+            BlockBuffer newBlock(header.getBlockSize(), header.getRecordSizeBytes());
+            if (!block.split(newBlock)) {
+                std::cerr << "Error: Could not split block" << std::endl;
+                return false;
+            }
+            
+            // Get new RBN for the new block
+            int newRBN = getNewBlockRBN();
+            std::cout << "Block split: Block " << rbn << " split into blocks " << rbn << " and " << newRBN << std::endl;
+            
+            // Update RBN links
+            int nextRBN = block.getNextBlockRBN();
+            block.setNextBlockRBN(newRBN);
+            newBlock.setPrevBlockRBN(rbn);
+            newBlock.setNextBlockRBN(nextRBN);
+            
+            // If there was a next block, update its prev link
+            if (nextRBN >= 0) {
+                BlockBuffer nextBlock(header.getBlockSize(), header.getRecordSizeBytes());
+                std::ifstream nextReadFile(dataFileName, std::ios::binary);
+                nextBlock.read(nextReadFile, nextRBN, header.getHeaderRecordSize());
+                nextReadFile.close();
+                
+                nextBlock.setPrevBlockRBN(newRBN);
+                
+                std::ofstream nextWriteFile(dataFileName, std::ios::binary | std::ios::in | std::ios::out);
+                nextBlock.write(nextWriteFile, nextRBN, header.getHeaderRecordSize());
+                nextWriteFile.close();
+            }
+            
+            // Try to add the record to the appropriate block
+            bool added = false;
+            if (zipCode <= block.getHighestKey()) {
+                added = block.addRecord(record);
+            } else {
+                added = newBlock.addRecord(record);
+            }
+            
+            if (!added) {
+                std::cerr << "Error: Could not add record after split" << std::endl;
+                return false;
+            }
+            
+            // Write blocks
+            std::ofstream writeFile(dataFileName, std::ios::binary | std::ios::in | std::ios::out);
+            block.write(writeFile, rbn, header.getHeaderRecordSize());
+            newBlock.write(writeFile, newRBN, header.getHeaderRecordSize());
+            writeFile.close();
+            
+            // Update index
+            std::string oldHighest = block.getHighestKey();
+            if (oldHighest != block.getHighestKey()) {
+                index.erase(oldHighest);
+                index[block.getHighestKey()] = rbn;
+            }
+            
+            index[newBlock.getHighestKey()] = newRBN;
+            
+            
+            // Update header
+            header.setRecordCount(header.getRecordCount() + 1);
+            header.setBlockCount(std::max(header.getBlockCount(), newRBN + 1));
+            std::ofstream headerFile(dataFileName, std::ios::binary | std::ios::in | std::ios::out);
+            header.write(headerFile);
+            headerFile.close();
+            
             return true;
         }
-    
-        // ❗ If record didn't fit — SPLIT logic
-        BlockBuffer newBlock(header.getBlockSize(), header.getRecordSizeBytes());
-        if (!block.split(newBlock)) {
-            std::cerr << "Error: Could not split block" << std::endl;
-            return false;
-        }
-    
-        int newRBN = getNewBlockRBN();
-        std::cout << "🔀 Block split: Block " << rbn << " ➜ new Block " << newRBN << std::endl;
-    
-        // Update RBN links
-        int nextRBN = block.getNextBlockRBN();
-        block.setNextBlockRBN(newRBN);
-        newBlock.setPrevBlockRBN(rbn);
-        newBlock.setNextBlockRBN(nextRBN);
-    
-        if (nextRBN >= 0) {
-            BlockBuffer nextBlock(header.getBlockSize(), header.getRecordSizeBytes());
-            std::ifstream nextReadFile(dataFileName, std::ios::binary);
-            nextBlock.read(nextReadFile, nextRBN, header.getHeaderRecordSize());
-            nextReadFile.close();
-    
-            nextBlock.setPrevBlockRBN(newRBN);
-    
-            std::ofstream nextWriteFile(dataFileName, std::ios::binary | std::ios::in | std::ios::out);
-            nextBlock.write(nextWriteFile, nextRBN, header.getHeaderRecordSize());
-            nextWriteFile.close();
-        }
-    
-        // Decide where to add the new record
-        bool added = false;
-        if (zipCode <= block.getHighestKey()) {
-            added = block.addRecord(record);
-        } else {
-            added = newBlock.addRecord(record);
-        }
-    
-        if (!added) {
-            std::cerr << "Error: Could not add record after block split" << std::endl;
-            return false;
-        }
-    
-        // Write updated blocks
-        std::ofstream writeFile(dataFileName, std::ios::binary | std::ios::in | std::ios::out);
-        block.write(writeFile, rbn, header.getHeaderRecordSize());
-        newBlock.write(writeFile, newRBN, header.getHeaderRecordSize());
-        writeFile.close();
-    
-        // Update index
-        updateIndex(oldHighest, block.getHighestKey(), rbn);
-        updateIndex("", newBlock.getHighestKey(), newRBN);
-    
-        // Update header
-        header.setRecordCount(header.getRecordCount() + 1);
-        header.setBlockCount(std::max(header.getBlockCount(), newRBN + 1));
-    
-        // Ensure active list has a valid head
-        if (header.getActiveListHead() == -1) {
-            header.setActiveListHead(rbn);
-        }
-    
-        std::ofstream headerFile(dataFileName, std::ios::binary | std::ios::in | std::ios::out);
-        header.write(headerFile);
-        headerFile.close();
-    
-        return true;
-    }    
+    }
     
     /**
      * @brief Delete a record by Zip Code
@@ -540,40 +529,63 @@ public:
     }
     
     /**
+     * @brief Helper function for logging to both out file and terminal
+     */
+    void logToBoth(std::ostream& fileStream, const std::string& message) {
+        std::cout << message << std::endl;
+        fileStream << message << std::endl;
+    }
+    
+    /**
      * @brief Dump the physical structure of the file
      */
-    void dumpPhysical() {
-        std::ifstream file(dataFileName, std::ios::binary);
-        if (!file.is_open()) {
-            std::cerr << "Error: Could not open data file " << dataFileName << std::endl;
+    void dumpPhysical(const std::string& outputFile = "dump_physical.txt") {
+        std::ofstream out(outputFile);
+        if (!out.is_open()) {
+            std::cerr << "Failed to open " << outputFile << " for writing." << std::endl;
             return;
         }
-        
-        // Read header
+    
+        std::ifstream file(dataFileName, std::ios::binary);
+        if (!file.is_open()) {
+            std::cerr << "Could not open data file: " << dataFileName << std::endl;
+            out << "Could not open data file: " << dataFileName << std::endl;
+            return;
+        }
+    
         header.read(file);
-        
-        std::cout << "List Head: " << header.getActiveListHead() << std::endl;
-        std::cout << "Avail Head: " << header.getAvailListHead() << std::endl;
-        
-        // Dump each block in physical order
+    
+        auto logToBoth = [&](const std::string& message) {
+            std::cout << message << std::endl;
+            out << message << std::endl;
+        };
+    
+        logToBoth("List Head: " + std::to_string(header.getActiveListHead()));
+        logToBoth("Avail Head: " + std::to_string(header.getAvailListHead()));
+    
         for (int rbn = 0; rbn < header.getBlockCount(); rbn++) {
             BlockBuffer block(header.getBlockSize(), header.getRecordSizeBytes());
             block.read(file, rbn, header.getHeaderRecordSize());
-            
-            std::cout << "RBN " << rbn << "  ";
-            
+    
+            std::ostringstream line;
+            line << "RBN " << std::setw(3) << rbn << "  ";
+    
             if (block.isAvailBlock()) {
-                std::cout << "*available*     " << block.getNextBlockRBN() << std::endl;
+                line << "*available*     -> " << block.getNextBlockRBN();
             } else {
                 for (const auto& record : block.getRecords()) {
-                    std::cout << record.getZipCode() << " ";
+                    line << record.getZipCode() << " ";
                 }
-                std::cout << block.getNextBlockRBN() << std::endl;
+                line << "-> " << block.getNextBlockRBN();  // Link to next
             }
+    
+            logToBoth(line.str());
         }
-        
+    
+        out.close();
         file.close();
     }
+    
     
     /**
      * @brief Dump the logical structure of the file
