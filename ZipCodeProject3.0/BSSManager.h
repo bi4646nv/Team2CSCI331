@@ -13,6 +13,7 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include <set>
 #include "HeaderRecordBuffer.h"
 #include "BlockBuffer.h"
 #include "RecordBuffer.h"
@@ -590,48 +591,69 @@ public:
     /**
      * @brief Dump the logical structure of the file
      */
-    void dumpLogical() {
-        std::ifstream file(dataFileName, std::ios::binary);
-        if (!file.is_open()) {
-            std::cerr << "Error: Could not open data file " << dataFileName << std::endl;
+    void dumpLogical(const std::string& outputFile = "dump_logical.txt") {
+        std::ofstream out(outputFile);
+        if (!out.is_open()) {
+            std::cerr << "Failed to open " << outputFile << " for writing." << std::endl;
             return;
         }
-        
-        // Read header
+    
+        std::ifstream file(dataFileName, std::ios::binary);
+        if (!file.is_open()) {
+            std::cerr << "Could not open data file: " << dataFileName << std::endl;
+            out << "Could not open data file: " << dataFileName << std::endl;
+            return;
+        }
+    
         header.read(file);
-        
-        std::cout << "List Head: " << header.getActiveListHead() << std::endl;
-        std::cout << "Avail Head: " << header.getAvailListHead() << std::endl;
-        
-        // Dump each block in logical order
+    
+        auto logToBoth = [&](const std::string& message) {
+            std::cout << message << std::endl;
+            out << message << std::endl;
+        };
+    
+        logToBoth("List Head: " + std::to_string(header.getActiveListHead()));
+        logToBoth("Avail Head: " + std::to_string(header.getAvailListHead()));
+    
+        std::set<int> visited; // Prevent infinite loops
+    
+        // Dump active list
         int rbn = header.getActiveListHead();
-        while (rbn >= 0) {
+        while (rbn >= 0 && !visited.count(rbn)) {
+            visited.insert(rbn);
+    
             BlockBuffer block(header.getBlockSize(), header.getRecordSizeBytes());
             block.read(file, rbn, header.getHeaderRecordSize());
-            
-            std::cout << "RBN " << rbn << "  ";
-            
+    
+            std::ostringstream line;
+            line << "RBN " << std::setw(3) << rbn << "  ";
             for (const auto& record : block.getRecords()) {
-                std::cout << record.getZipCode() << " ";
+                line << record.getZipCode() << " ";
             }
-            std::cout << block.getNextBlockRBN() << std::endl;
-            
+            line << "-> " << block.getNextBlockRBN();
+            logToBoth(line.str());
+    
             rbn = block.getNextBlockRBN();
         }
-        
+    
         // Dump avail list
         rbn = header.getAvailListHead();
-        while (rbn >= 0) {
+        while (rbn >= 0 && !visited.count(rbn)) {
+            visited.insert(rbn);
+    
             BlockBuffer block(header.getBlockSize(), header.getRecordSizeBytes());
             block.read(file, rbn, header.getHeaderRecordSize());
-            
-            std::cout << "RBN " << rbn << "  *available*     " << block.getNextBlockRBN() << std::endl;
-            
+    
+            std::ostringstream line;
+            line << "RBN " << std::setw(3) << rbn << "  *available*     -> " << block.getNextBlockRBN();
+            logToBoth(line.str());
+    
             rbn = block.getNextBlockRBN();
         }
-        
+    
         file.close();
-    }
+        out.close();
+    }    
     
     /**
      * @brief Dump the index
