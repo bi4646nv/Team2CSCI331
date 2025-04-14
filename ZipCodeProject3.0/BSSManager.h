@@ -330,114 +330,108 @@ public:
      */
     bool insert(const ZipCodeRecord& record) {
         std::string zipCode = record.getZipCode();
-        
+    
         // Check if record already exists
         ZipCodeRecord existingRecord;
         if (search(zipCode, existingRecord)) {
             std::cerr << "Error: Record with Zip Code " << zipCode << " already exists" << std::endl;
             return false;
         }
-        
+    
         // Find block using index
         int rbn = findBlockByKey(zipCode);
-        
+    
         // Read block
         BlockBuffer block(header.getBlockSize(), header.getRecordSizeBytes());
         std::ifstream readFile(dataFileName, std::ios::binary);
-        block.read(readFile, rbn, header.getHeaderRecordSize());
+        block.read(readFile, rbn + 2, header.getHeaderRecordSize());
         readFile.close();
-        
-        // Try to add record to block
+    
         if (block.addRecord(record)) {
-            // Record fits in the block, just update the block
             std::ofstream writeFile(dataFileName, std::ios::binary | std::ios::in | std::ios::out);
-            block.write(writeFile, rbn, header.getHeaderRecordSize());
+            block.write(writeFile, rbn + 2, header.getHeaderRecordSize());
             writeFile.close();
-            
-            // Update index if highest key changed
+    
             std::string oldHighest = block.getHighestKey();
             if (zipCode > oldHighest) {
                 updateIndex(oldHighest, zipCode, rbn);
             }
-            
-            // Update record count
+    
             header.setRecordCount(header.getRecordCount() + 1);
             std::ofstream headerFile(dataFileName, std::ios::binary | std::ios::in | std::ios::out);
             header.write(headerFile);
             headerFile.close();
-            
+    
             return true;
         } else {
-            // Record doesn't fit, need to split the block
             BlockBuffer newBlock(header.getBlockSize(), header.getRecordSizeBytes());
             if (!block.split(newBlock)) {
                 std::cerr << "Error: Could not split block" << std::endl;
                 return false;
             }
-            
-            // Get new RBN for the new block
+    
             int newRBN = getNewBlockRBN();
             std::cout << "Block split: Block " << rbn << " split into blocks " << rbn << " and " << newRBN << std::endl;
-            
-            // Update RBN links
+    
             int nextRBN = block.getNextBlockRBN();
             block.setNextBlockRBN(newRBN);
             newBlock.setPrevBlockRBN(rbn);
             newBlock.setNextBlockRBN(nextRBN);
-            
-            // If there was a next block, update its prev link
+    
             if (nextRBN >= 0) {
                 BlockBuffer nextBlock(header.getBlockSize(), header.getRecordSizeBytes());
                 std::ifstream nextReadFile(dataFileName, std::ios::binary);
-                nextBlock.read(nextReadFile, nextRBN, header.getHeaderRecordSize());
+                nextBlock.read(nextReadFile, nextRBN + 2, header.getHeaderRecordSize());
                 nextReadFile.close();
-                
+    
                 nextBlock.setPrevBlockRBN(newRBN);
-                
+    
                 std::ofstream nextWriteFile(dataFileName, std::ios::binary | std::ios::in | std::ios::out);
-                nextBlock.write(nextWriteFile, nextRBN, header.getHeaderRecordSize());
+                nextBlock.write(nextWriteFile, nextRBN + 2, header.getHeaderRecordSize());
                 nextWriteFile.close();
             }
-            
-            // Try to add the record to the appropriate block
+    
             bool added = false;
             if (zipCode <= block.getHighestKey()) {
                 added = block.addRecord(record);
             } else {
                 added = newBlock.addRecord(record);
             }
-            
+    
             if (!added) {
                 std::cerr << "Error: Could not add record after split" << std::endl;
                 return false;
             }
-            
-            // Write blocks
+    
             std::ofstream writeFile(dataFileName, std::ios::binary | std::ios::in | std::ios::out);
-            block.write(writeFile, rbn, header.getHeaderRecordSize());
-            newBlock.write(writeFile, newRBN, header.getHeaderRecordSize());
+            block.write(writeFile, rbn + 2, header.getHeaderRecordSize());
+            newBlock.write(writeFile, newRBN + 2, header.getHeaderRecordSize());
             writeFile.close();
-            
-            // Update index
+    
             std::string oldHighest = block.getHighestKey();
             if (oldHighest != block.getHighestKey()) {
                 index.erase(oldHighest);
                 index[block.getHighestKey()] = rbn;
             }
-            
+    
             index[newBlock.getHighestKey()] = newRBN;
-            
-            
-            // Update header
+    
             header.setRecordCount(header.getRecordCount() + 1);
-            header.setBlockCount(std::max(header.getBlockCount(), newRBN + 1));
+            header.setBlockCount(std::max(header.getBlockCount(), std::max(rbn, newRBN) + 1));
+    
+            // Step 2: Set Active List Head if it was not yet set
+            if (header.getActiveListHead() == -1) {
+                header.setActiveListHead(std::min(rbn, newRBN));
+            }
+    
             std::ofstream headerFile(dataFileName, std::ios::binary | std::ios::in | std::ios::out);
             header.write(headerFile);
             headerFile.close();
-            
+    
             return true;
         }
     }
+    
     
     /**
      * @brief Delete a record by Zip Code
