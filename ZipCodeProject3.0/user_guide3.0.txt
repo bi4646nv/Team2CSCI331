@@ -1,5 +1,5 @@
 User Guide for ZipCodeProject3.0
---------------------------------------------------
+--------------------------------
 1. Introduction
 -----
 This version builds upon previous versions by implementing a Blocked Sequence Set (BSS) file structure for storing
