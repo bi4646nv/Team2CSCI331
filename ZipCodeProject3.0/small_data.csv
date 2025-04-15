@@ -1,0 +1,7 @@
+ZipCode,City,State,County,Latitude,Longitude
+10000,Startville,NY,AlphaCounty,40.0001,-73.0001
+20000,Middletown,NY,BetaCounty,40.0002,-73.0002
+30000,Endtown,NY,GammaCounty,40.0003,-73.0003
+40000,Nexton,NY,DeltaCounty,40.0004,-73.0004
+50000,Westville,NY,EpsilonCounty,40.0005,-73.0005
+60000,Eastville,NY,ZetaCounty,40.0006,-73.0006
