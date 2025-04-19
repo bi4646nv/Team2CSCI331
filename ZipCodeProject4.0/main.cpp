@@ -35,4 +35,7 @@ int main() {
 
     return 0;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 25984b7 (updated main.cpp)
