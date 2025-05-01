@@ -3,6 +3,7 @@
  * @brief Test driver for the B+ Tree with IndexBlockBuffer
  */
 
+#include "BSSManager.h"
 #include "BPlusTree.h"
 #include <iostream>
 
