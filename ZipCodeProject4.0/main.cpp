@@ -9,7 +9,7 @@
 
 int main() {
     // Create a B+ Tree 
-    BPlusTree bptree();
+    BPlusTree bptree(); 
 
     // Insert some sample key-RBN pairs
     bptree.insert("12345", 1);
