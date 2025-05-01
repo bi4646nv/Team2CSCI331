@@ -8,8 +8,8 @@
 #include <iostream>
 
 int main() {
-    // Create a B+ Tree with block size 512 bytes
-    BPlusTree bptree(512);
+    // Create a B+ Tree 
+    BPlusTree bptree();
 
     // Insert some sample key-RBN pairs
     bptree.insert("12345", 1);
